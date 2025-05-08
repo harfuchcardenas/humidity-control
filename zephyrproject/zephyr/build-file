@@ -17,4 +17,4 @@ die "Failed to create virtual environment!\n" if $status != 0;
 
 # Step 2: Activate virtual environment and install dependencies
 $status = system("bash -c 'source $venv_name/bin/activate && pip install west && west update && west zephyr-export && west packages pip --install && west sdk install && west build -p always -b nrf7002dk/nrf5340/cpuapp samples/basic/blinky_pwm'");
-print "West has been installed\n";
+print "West project has already been built";
