@@ -1,0 +1,11 @@
+.venv/
+Dokumentation/
+kitware-archive.sh
+zephyrproject/.venv/
+zephyrproject/.west/
+zephyrproject/bootloader/
+zephyrproject/build/
+zephyrproject/modules/
+zephyrproject/prjfile
+zephyrproject/tools/
+zephyrproject/v/
