@@ -8,6 +8,6 @@ my $status = system("python3 -m venv $venv_name");
 die "Failed to create virtual environment!\n" if $status != 0;
 
 # Step 2: Activate virtual environment, install west, export zephyr to be found by cmake, install necessary modules required by python, install the west sdk and build of the project using west.
-$status = system("bash -c 'source $venv_name/bin/activate && pip install west && west update && west zephyr-export && west packages pip --install && west sdk install && west build -p always -b nrf7002dk/nrf5340/cpuapp src/fan_pwm/'");
+$status = system("bash -c 'source $venv_name/bin/activate && pip install west && west update && west zephyr-export && west packages pip --install && west sdk install && west build -p always -b nrf7002dk/nrf5340/cpuapp fan/'");
 print "Project has been built as /home/aharfuch/Kernergetiks/Humidity-control/zephyrproject/zephyr/build/zephyr/zephyr.elf.\n";
 
