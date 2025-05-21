@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 *.o
 *.a
 *.d
@@ -209,3 +210,16 @@ SysbuildKconfigBasic.txt
 SysbuildKconfigBasicNoModules.txt
 TextEncoding.txt
 YAMLLint.txt
+=======
+.venv/
+Dokumentation/
+kitware-archive.sh
+zephyrproject/.venv/
+zephyrproject/.west/
+zephyrproject/bootloader/
+zephyrproject/build/
+zephyrproject/modules/
+zephyrproject/prjfile
+zephyrproject/tools/
+zephyrproject/v/
+>>>>>>> 59bb4cc (Add additional files to .gitignore)
