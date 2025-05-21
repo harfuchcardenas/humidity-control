@@ -7,6 +7,7 @@ zephyrproject/bootloader/
 zephyrproject/modules/
 zephyrproject/samples/
 zephyrproject/tools/
+zephyrproject/zephyr/
 zephyrproject/zephyr/.checkpatch.conf
 zephyrproject/zephyr/.clang-format
 zephyrproject/zephyr/.codechecker.yml
