@@ -43,7 +43,7 @@ my $status = system("bash -c '
     pwd &&
     west sdk install &&
     west &&
-    west build -p always -b nrf7002dk/nrf5340/cpuapp --source-dir /home/aharfuch/Kernergetiks/Soil-humidity/zephyrproject/zephyr/samples/basic/blinky_pwm --build-dir /home/aharfuch/Kernergetiks/Soil-humidity/zephyrproject/zephyr/build &&
+    west build -p always -b nrf7002dk/nrf5340/cpuapp --source-dir /home/aharfuch/Kernergetiks/Humidity-control/zephyrproject/zephyr/samples/basic/blinky_pwm --build-dir /home/aharfuch/Kernergetiks/Humidity-control/zephyrproject/zephyr/build &&
     deactivate
 '");
 # Step 2: Activate virtual environment, install west, export zephyr to be found by cmake, install necessary modules required by python, install the west sdk and build of the project using west.
