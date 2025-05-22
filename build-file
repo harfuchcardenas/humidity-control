@@ -3,6 +3,61 @@ use strict;
 use warnings;
 use Cwd;
 
+# Function to navigate directories interactively
+sub navigate_directory {
+    my $current_dir = cwd();  # Get current working directory
+    print "\nCurrent Directory: $current_dir\n";
+
+    # Open and get subdirectories
+    opendir(my $dh, $current_dir) or die "Cannot open directory: $!\n";
+    my @subdirs = grep { -d "$current_dir/$_" && !/^\./ } readdir($dh);
+    closedir($dh);
+
+    # If no subdirectories exist, return current directory
+    unless (@subdirs) {
+        print "No subdirectories found. Storing this directory...\n";
+        return $current_dir;
+    }
+
+    # List subdirectories for selection
+    print "Available subdirectories:\n";
+    for (my $i = 0; $i < @subdirs; $i++) {
+        print "$i: $subdirs[$i]\n";
+    }
+
+    # User input selection
+    print "Select a subdirectory by number or press Enter to confirm: ";
+    my $choice = <STDIN>;
+    chomp($choice);
+
+    # If user presses Enter, store current directory
+    if ($choice eq '') {
+        print "Final selection confirmed. Storing: $current_dir\n";
+        return $current_dir;
+    }
+
+    # Validate user input
+    if ($choice =~ /^\d+$/ && $choice >= 0 && $choice < @subdirs) {
+        my $selected_dir = $subdirs[$choice];
+        chdir("$current_dir/$selected_dir") or die "Failed to enter '$selected_dir': $!\n";
+        return navigate_directory();  # Recursively call function
+    } else {
+        print "Invalid selection. Try again!\n";
+        return navigate_directory();  # Retry selection
+    }
+}
+
+# Start navigation from 'zephyrproject'
+#chdir("..") or die "Failed to move up a level: $!\n";
+chdir("zephyrproject") or die "Failed to enter 'zephyrproject': $!\n";
+
+# Store final directory choice
+my $final_dir = navigate_directory();
+
+# Output stored directory for later use
+print "\nStored Directory Path: $final_dir\n";
+
+exit 0;
 #Get pwd via cwd
 my $current_dir = cwd();  # Stores the current directory
 print "CWD: $current_dir\n";
