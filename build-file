@@ -52,15 +52,15 @@ sub navigate_directory {
 chdir("zephyrproject") or die "Failed to enter 'zephyrproject': $!\n";
 
 # Store final directory choice
-my $final_dir = navigate_directory();
+my $src_dir = navigate_directory();
 
 # Output stored directory for later use
-print "\nStored Directory Path: $final_dir\n";
+print "\nDirectory of source code: $src_dir\n";
+print "\nPress Enter to continue...";
+<STDIN>;  # Waits for user input before exiting
 
-exit 0;
 #Get pwd via cwd
-my $current_dir = cwd();  # Stores the current directory
-print "CWD: $current_dir\n";
+my $current_dir = $src_dir; # Stores the current directory
 
 # Run 'dpkg -s python3' to check if Python is installed
 my $check_python = `dpkg -s python3 2>/dev/null | grep Version`;
