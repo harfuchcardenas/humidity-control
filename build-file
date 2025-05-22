@@ -48,7 +48,6 @@ sub navigate_directory {
 }
 
 # Start navigation from 'zephyrproject'
-#chdir("..") or die "Failed to move up a level: $!\n";
 chdir("zephyrproject") or die "Failed to enter 'zephyrproject': $!\n";
 
 # Store final directory choice
