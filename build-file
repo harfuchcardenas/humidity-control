@@ -62,7 +62,6 @@ print "\nPress Enter to continue...";
 my $current_dir = $build_base; # Stores the current directory
 my $status = system("bash -c 'dpkg -s python3-venv >/dev/null 2>&1'");
 $current_dir .= "/zephyrproject";
-print "CURRENT_DIR: $current_dir\n";
 # Step 1: Create the Python virtual environment
 my $venv_name = ".venv";
 
@@ -77,7 +76,6 @@ if ($status == 0) {
     west zephyr-export &&
     west packages pip --install &&
     cd $current_dir/zephyr &&
-    pwd &&
     west sdk install &&
     west build -p always -b nrf7002dk/nrf5340/cpuapp --source-dir $src_dir --build-dir $current_dir/zephyr/build &&
     deactivate'");
@@ -85,18 +83,14 @@ if ($status == 0) {
     print "❌ python3-venv is NOT installed. Installing...\n";
     system("bash -c '
     sudo apt install python3-venv &&
-    pwd &&
     python3 -m venv $venv_name &&
-    cd .. &&
     source zephyrproject/.venv/bin/activate &&
     pip install west &&
     (west init zephyrproject || echo \"Zephyr already initialized\") &&
-    cd zephyrproject &&
     west update &&
     west zephyr-export &&
     west packages pip --install &&
-    cd zephyr &&
-    pwd &&
+    cd $current_dir/zephyr &&
     west sdk install &&
     west build -p always -b nrf7002dk/nrf5340/cpuapp --source-dir $src_dir --build-dir $current_dir/zephyr/build &&
     deactivate'");
