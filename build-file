@@ -48,6 +48,18 @@ sub navigate_directory {
     }
 }
 
+my $target_dir = cwd();  # Get current working directory
+$target_dir .= "/zephyrproject";
+print "Target: $target_dir\n";
+
+# Check if `zephyrproject` exists inside the given directory
+if (-d $target_dir) {
+    print "✅ Directory '$target_dir' exists!\n";
+} else {
+    print "❌ Directory '$target_dir' does NOT exist!\n";
+    system('mkdir zephyrproject');
+}
+
 # Start navigation from 'zephyrproject'
 chdir("zephyrproject") or die "Failed to enter 'zephyrproject': $!\n";
 
