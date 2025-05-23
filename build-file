@@ -56,12 +56,13 @@ my $src_dir = navigate_directory(); #Correct directory of source code.
 
 # Output stored directory for later use
 print "\nPress Enter to continue...";
-<STDIN>;  # Waits for user input before exiting
+<STDIN>;  # Waits for user input before continuing
 
 #Get pwd via cwd
 my $current_dir = $build_base; # Stores the current directory
 my $status = system("bash -c 'dpkg -s python3-venv >/dev/null 2>&1'");
-
+$current_dir .= "/zephyrproject";
+print "CURRENT_DIR: $current_dir\n";
 # Step 1: Create the Python virtual environment
 my $venv_name = ".venv";
 
@@ -69,21 +70,19 @@ if ($status == 0) {
     print "✅ python3-venv is installed. Building...\n";
     system("bash -c '
     python3 -m venv $venv_name &&
-    cd .. &&
-    source zephyrproject/.venv/bin/activate &&
+    source .venv/bin/activate &&
     pip install west &&
     (west init zephyrproject || echo \"Zephyr already initialized\") &&
-    cd zephyrproject &&
     west update &&
     west zephyr-export &&
     west packages pip --install &&
-    cd zephyr &&
+    cd $current_dir/zephyr &&
     pwd &&
     west sdk install &&
     west build -p always -b nrf7002dk/nrf5340/cpuapp --source-dir $src_dir --build-dir $current_dir/zephyr/build &&
     deactivate'");
 } else {
-    print "❌ python3-venv is NOT installed. Running Command 1...\n";
+    print "❌ python3-venv is NOT installed. Installing...\n";
     system("bash -c '
     sudo apt install python3-venv &&
     pwd &&
@@ -102,24 +101,5 @@ if ($status == 0) {
     west build -p always -b nrf7002dk/nrf5340/cpuapp --source-dir $src_dir --build-dir $current_dir/zephyr/build &&
     deactivate'");
 }
-
-# If Python 3 is installed, continue with the script
-my $dir = "/zephyrproject";
-$current_dir .= $dir;
-print "Current directory: $current_dir\n";
-my $zeprodir = 0;  # Flag to track whether the directory was newly created
-
-# Check if the directory exists
-if (-d $current_dir) {
-    chdir("$current_dir") or die "Failed to change directory: $!\n";
-} else {
-    print "The directory '$dir' does not exist. Creating it now...\n";
-    mkdir $current_dir or die "Failed to create directory: $!";
-    chdir("zephyrproject") or die "Failed to change directory: $!\n";
-}
-
-#my $status = system("bash -c '
-    
-# Step 2: Activate virtual environment, install west, export zephyr to be found by cmake, install necessary modules required by python, install the west sdk and build of the project using west.
 system("echo 'Virtual environment deactivated'");
 exit 0;
