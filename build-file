@@ -51,10 +51,9 @@ sub navigate_directory {
 chdir("zephyrproject") or die "Failed to enter 'zephyrproject': $!\n";
 
 # Store final directory choice
-my $src_dir = navigate_directory();
+my $src_dir = navigate_directory(); #Correct directory of source code.
 
 # Output stored directory for later use
-print "\nDirectory of source code: $src_dir\n";
 print "\nPress Enter to continue...";
 <STDIN>;  # Waits for user input before exiting
 
@@ -87,7 +86,6 @@ if (-d $current_dir) {
     chdir("zephyrproject") or die "Failed to change directory: $!\n";
 }
 
-print "PWD: $current_dir";
 # Step 1: Create the Python virtual environment
 my $venv_name = ".venv";
 my $status = system("bash -c '
