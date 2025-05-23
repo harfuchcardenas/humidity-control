@@ -10,7 +10,7 @@ sub navigate_directory {
 
     # Open and get subdirectories
     opendir(my $dh, $current_dir) or die "Cannot open directory: $!\n";
-    my @subdirs = grep { -d "$current_dir/$_" && !/^\./ } readdir($dh);
+    my @subdirs = sort grep { -d "$current_dir/$_" && !/^\./ } readdir($dh);
     closedir($dh);
 
     # If no subdirectories exist, return current directory
@@ -20,7 +20,7 @@ sub navigate_directory {
     }
 
     # List subdirectories for selection
-    print "Available subdirectories:\n";
+    print "You're building Zephyr OS, and you need to choose a source directory, select a subdirectory:\n";
     for (my $i = 0; $i < @subdirs; $i++) {
         print "$i: $subdirs[$i]\n";
     }
@@ -32,7 +32,7 @@ sub navigate_directory {
 
     # If user presses Enter, store current directory
     if ($choice eq '') {
-        print "Final selection confirmed. Storing: $current_dir\n";
+        print "Source path: $current_dir\n";
         return $current_dir;
     }
 
@@ -75,6 +75,7 @@ if ($check_python) {
 # If Python 3 is installed, continue with the script
 my $dir = "/zephyrproject";
 $current_dir .= $dir;
+print "Current directory: $current_dir\n";
 my $zeprodir = 0;  # Flag to track whether the directory was newly created
 
 # Check if the directory exists
