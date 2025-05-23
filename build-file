@@ -65,13 +65,16 @@ $current_dir .= "/zephyrproject";
 # Step 1: Create the Python virtual environment
 my $venv_name = ".venv";
 
+#(west init zephyrproject || echo \"Zephyr already initialized\") &&
+
 if ($status == 0) {
     print "✅ python3-venv is installed. Building...\n";
     system("bash -c '
     python3 -m venv $venv_name &&
     source .venv/bin/activate &&
     pip install west &&
-    (west init zephyrproject || echo \"Zephyr already initialized\") &&
+    cd ../../../.. &&
+    if [ -d .west ]; then echo \"Workspace already initialized.\"; else west init && west update; fi &&
     west update &&
     west zephyr-export &&
     west packages pip --install &&
@@ -86,7 +89,8 @@ if ($status == 0) {
     python3 -m venv $venv_name &&
     source zephyrproject/.venv/bin/activate &&
     pip install west &&
-    (west init zephyrproject || echo \"Zephyr already initialized\") &&
+    cd ../../../.. &&
+    if [ -d .west ]; then echo \"Workspace already initialized.\"; else west init && west update; fi &&
     west update &&
     west zephyr-export &&
     west packages pip --install &&
