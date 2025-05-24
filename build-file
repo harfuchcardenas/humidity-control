@@ -27,7 +27,7 @@ sub navigate_directory {
     }
 
     # User input selection
-    print "Select a subdirectory by number or press Enter to confirm: ";
+    print "Select a subdirectory by number, press Enter to confirm, or simply E to exit: ";
     my $choice = <STDIN>;
     chomp($choice);
 
@@ -42,7 +42,9 @@ sub navigate_directory {
         my $selected_dir = $subdirs[$choice];
         chdir("$current_dir/$selected_dir") or die "Failed to enter '$selected_dir': $!\n";
         return navigate_directory();  # Recursively call function
-    } else {
+    } elsif($choice =~ /^e$/i) {
+        exit 0;
+    }else {
         print "Invalid selection. Try again!\n";
         return navigate_directory();  # Retry selection
     }
