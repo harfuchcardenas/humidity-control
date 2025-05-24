@@ -5,7 +5,6 @@ After getting the fan controled the next step will be to control it based on the
 Installation (Ubuntu 20.04.1 LTS):
 
 mkdir Humidity\ control
-mkdir Humidity\ control
 cd Humidity\ control
 
 wget https://apt.kitware.com/kitware-archive.sh
