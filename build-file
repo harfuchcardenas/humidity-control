@@ -56,6 +56,7 @@ my @packages = qw(
 
 # Track missing packages
 my @missing;
+<<<<<<< HEAD
 
 foreach my $package (@packages) {
     my $status = `dpkg -l | grep -w $package`;
@@ -112,5 +113,92 @@ cd $current_dir/zephyr &&
 west sdk install &&
 west build -p always -b nrf7002dk/nrf5340/cpuapp --source-dir $current_dir/zephyr/samples/basic/blinky --build-dir $current_dir/zephyr/build &&
 deactivate'");
+=======
+
+foreach my $package (@packages) {
+    my $status = `dpkg -l | grep -w $package`;
+    if ($status) {
+        print "$package is installed.\n";
+    } else {
+        print "$package is NOT installed.\n";
+        push @missing, $package;
+    }
+}
+
+# Install missing packages
+if (@missing) {
+    print "\nThe following packages are missing: @missing\n";
+    print "Do you want to install them? (y/n): ";
+    my $answer = <STDIN>;
+    chomp $answer;
+
+    if ($answer eq 'y') {
+        system("sudo apt-get update");
+        system("sudo apt-get install --no-install-recommends @missing");
+    } else {
+        print "Installation aborted.\n";
+    }
+} else {
+    print "\nAll dependencies are installed!\n";
+}
+
+#Get pwd via cwd
+my $current_dir = cwd(); # Get current working directory
+my $status = system("bash -c 'dpkg -s python3-venv >/dev/null 2>&1'");
+$current_dir .= "/zephyrproject";
+
+# Step 1: Create the Python virtual environment
+print "CURRENT_DIR: $current_dir";
+
+<STDIN>;  # Waits for user input before continuing
+
+
+# Output stored directory for later use
+print "\nPress Enter to continue...";
+
+
+if ($status == 0) {
+    print "Status0\n";
+    <STDIN>;
+    # Start navigation from 'zephyrproject'
+    #chdir("zephyrproject") or die "Failed to enter 'zephyrproject': $!\n";
+    print "✅ python3-venv is installed. Building...\n";
+    system("bash -c '
+    python3 -m venv $current_dir/.venv &&
+    pwd &&
+    source $current_dir/.venv/bin/activate &&
+    cd zephyrproject/ &&
+    pip install west &&
+    if [ -d .west ]; then echo \"Workspace already initialized.\"; else west init && west update; fi &&
+    west update &&
+    west zephyr-export &&
+    west packages pip --install &&
+    cd $current_dir/zephyr &&
+    west sdk install &&
+    west build -p always -b nrf7002dk/nrf5340/cpuapp --source-dir $current_dir/zephyr --build-dir $current_dir/zephyr/build &&
+    deactivate'");
+} else {
+    print "Status not zero\n";
+    <STDIN>;
+    print "❌ python3-venv is NOT installed. Installing...\n";
+    system("bash -c '
+    sudo apt install python3-venv &&
+    python3 -m venv $current_dir'");
+    # Store final directory choice
+    my $src_dir = navigate_directory(); #Correct directory of source code.
+    system("bash -c '
+    source zephyrproject/.venv/bin/activate &&
+    pip install west &&
+    cd ../../../.. &&
+    if [ -d .west ]; then echo \"Workspace already initialized.\"; else west init && west update; fi &&
+    west update &&
+    west zephyr-export &&
+    west packages pip --install &&
+    cd $current_dir/zephyr &&
+    west sdk install &&
+    west build -p always -b nrf7002dk/nrf5340/cpuapp --source-dir $current_dir/zephyr --build-dir $current_dir/zephyr/build &&
+    deactivate'");
+}
+>>>>>>> refs/remotes/origin/master
 system("echo 'Virtual environment deactivated'");
 exit 0;
