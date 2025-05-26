@@ -33,7 +33,7 @@ sub navigate_directory {
 
     # If user presses Enter, store current directory
     if ($choice eq '') {
-        print "Source path: $current_dir\n";
+        print "\nSelected source path: $current_dir\n";
         return $current_dir;
     }
 
@@ -49,6 +49,7 @@ sub navigate_directory {
         return navigate_directory();  # Retry selection
     }
 }
+
 # List of dependencies
 my @packages = qw(
     git cmake ninja-build gperf
@@ -61,7 +62,6 @@ my @packages = qw(
 my @missing;
 my $target_dir = cwd();  # Get current working directory
 $target_dir .= "/zephyrproject";
-print "Target: $target_dir\n";
 
 # Check if `zephyrproject` exists inside the given directory
 if (-d $target_dir) {
@@ -97,9 +97,6 @@ my $current_dir = $build_base; # Stores the current directory
 my $status = system("bash -c 'dpkg -s python3-venv >/dev/null 2>&1'");
 $current_dir .= "/zephyrproject";
 
-# Output stored directory for later use
-print "\nPress Enter to continue...";
-<STDIN>;
 # Start navigation from 'zephyrproject'
 #chdir("zephyrproject") or die "Failed to enter 'zephyrproject': $!\n";
 print "✅ python3-venv is installed. Building...\n";
