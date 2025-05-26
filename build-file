@@ -92,9 +92,6 @@ if (@missing) {
     chomp $answer;
 }
 
-# Store final directory choice
-my $src_dir = navigate_directory(); #Correct directory of source code.
-
 #Get pwd via cwd
 my $current_dir = $build_base; # Stores the current directory
 my $status = system("bash -c 'dpkg -s python3-venv >/dev/null 2>&1'");
@@ -109,6 +106,13 @@ print "✅ python3-venv is installed. Building...\n";
 system("bash -c '
 python3 -m venv $current_dir/.venv &&
 pwd &&
+source $current_dir/.venv/bin/activate &&
+deactivate'");
+
+# Store final directory choice
+my $src_dir = navigate_directory(); #Correct directory of source code.
+
+system("bash -c '
 source $current_dir/.venv/bin/activate &&
 cd  $current_dir &&
 pip install west &&
