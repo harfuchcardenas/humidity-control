@@ -110,7 +110,6 @@ deactivate'");
 my $src_dir = navigate_directory(); #Correct directory of source code.
 
 print "SOURCE: $src_dir";
-<STDIN>;
 
 system("bash -c '
 source $current_dir/.venv/bin/activate &&
