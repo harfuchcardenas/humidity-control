@@ -66,7 +66,7 @@ my @packages = qw(
     git cmake ninja-build gperf
     ccache dfu-util device-tree-compiler wget
     python3-dev python3-pip python3-setuptools python3-tk python3-wheel xz-utils file
-    
+    make gcc gcc-mltilib g++-multilib libsdl2-dev libmagic1 
 );
 
 
@@ -104,8 +104,10 @@ if(@missing) {
     chomp $answer;
     if ($answer eq 'y' || $answer eq 'Y') {
 	foreach(@missing) {
-	    my $exit_code = system("sudo apt install $_");
-	    if ($exit_code != 0) {
+	    my $exit_code = system("sudo apt install --no-install-recommends $_");
+	    if ($exit_code = 25600) {
+		die "It is required that $_ is installed manually. Exiting!";
+	    }elsif ($exit_code != 0) {
 		die "Command failed with exit code $exit_code\n";
 	    }
         }
@@ -113,8 +115,7 @@ if(@missing) {
 	die "Canceled by the user\n";
     }
 }
-
-system("make gcc gcc-mltilib g++-multilib libsdl2-dev libmagic1");
+exit 0;
 
 #Get pwd via cwd
 my $current_dir = $build_base; # Stores the current directory
@@ -122,7 +123,7 @@ my $status = system("bash -c 'dpkg -s python3-venv >/dev/null 2>&1'");
 $current_dir .= "/zephyrproject";
 
 # Start navigation from 'zephyrproject'
-#chdir("zephyrproject") or die "Failed to enter 'zephyrproject': $!\n";
+chdir("zephyrproject") or die "Failed to enter 'zephyrproject': $!\n";
 print "✅ python3-venv is installed. Building...\n";
 system("bash -c '
 python3 -m venv $current_dir/.venv &&
@@ -145,6 +146,7 @@ west zephyr-export &&
 west packages pip --install &&
 cd $current_dir/zephyr &&
 west sdk install &&
+read -p \"Press Enter to continue...\" && 
 west build -p always -b nrf7002dk/nrf5340/cpuapp --source-dir $src_dir --build-dir $current_dir/zephyr/build &&
 deactivate'");
 system("echo 'Virtual environment deactivated'");
