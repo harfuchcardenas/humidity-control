@@ -52,13 +52,23 @@ sub navigate_directory {
     }
 }
 
+# Install git
+if (system("command -v git > /dev/null") != 0) {
+    print "Git is not installed. Installing now...\n";
+    system("sudo apt update && sudo apt install -y git") == 0
+        or die "Falied to install Git!\n";
+} else {
+    print "Git is already installed!\n";
+}
+
 # List of dependencies
 my @packages = qw(
     git cmake ninja-build gperf
     ccache dfu-util device-tree-compiler wget
     python3-dev python3-pip python3-setuptools python3-tk python3-wheel xz-utils file
-    make gcc gcc-mltilib g++-multilib libsdl2-dev libmagic1
+    
 );
+
 
 # Track missing packages
 my @missing;
@@ -87,12 +97,24 @@ foreach my $package (@packages) {
 }
 
 # Install missing packages
-if (@missing) {
+if(@missing) {
     print "\nThe following packages are missing: @missing\n";
     print "Do you want to install them? (y/n): ";
     my $answer = <STDIN>;
     chomp $answer;
+    if ($answer eq 'y' || $answer eq 'Y') {
+	foreach(@missing) {
+	    my $exit_code = system("sudo apt install $_");
+	    if ($exit_code != 0) {
+		die "Command failed with exit code $exit_code\n";
+	    }
+        }
+    }else {
+	die "Canceled by the user\n";
+    }
 }
+
+system("make gcc gcc-mltilib g++-multilib libsdl2-dev libmagic1");
 
 #Get pwd via cwd
 my $current_dir = $build_base; # Stores the current directory
