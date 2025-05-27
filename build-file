@@ -27,7 +27,7 @@ sub navigate_directory {
     }
 
     # User input selection
-    print "Select a subdirectory by number, press Enter to confirm, or simply E to exit: ";
+    print "Select a subdirectory by number, press Enter to confirm, Press B to go back one level or simply E to exit: ";
     my $choice = <STDIN>;
     chomp($choice);
 
@@ -35,6 +35,8 @@ sub navigate_directory {
     if ($choice eq '') {
         print "\nSelected source path: $current_dir\n";
         return $current_dir;
+    }elsif ($choice eq 'B') {
+        chdir("..") or die "Failed to climb a level up$!\n";
     }
 
     # Validate user input
