@@ -7,6 +7,8 @@ use Cwd;
 my $build_base = cwd();  # Get current working directory
 sub navigate_directory {
     my $current_dir = cwd();  # Get current working directory
+    print "\nCurrent Directory: $current_dir\n";
+
     # Open and get subdirectories
     opendir(my $dh, $current_dir) or die "Cannot open directory: $!\n";
     my @subdirs = sort grep { -d "$current_dir/$_" && !/^\./ } readdir($dh);
@@ -106,6 +108,9 @@ deactivate'");
 
 # Store final directory choice
 my $src_dir = navigate_directory(); #Correct directory of source code.
+
+print "SOURCE: $src_dir";
+<STDIN>;
 
 system("bash -c '
 source $current_dir/.venv/bin/activate &&
