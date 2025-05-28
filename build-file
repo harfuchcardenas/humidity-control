@@ -59,61 +59,24 @@ if (system("command -v git > /dev/null") != 0) {
     print "Git is already installed!\n";
 }
 
-# List of dependencies
-my @packages = qw(
-    git cmake ninja-build gperf
-    ccache dfu-util device-tree-compiler wget
-    python3-dev python3-pip python3-setuptools python3-tk python3-wheel xz-utils file
-    make gcc gcc-mltilib g++-multilib libsdl2-dev libmagic1 
-);
-
+#Install required Dependencies
+system("echo To install dependencies\n");
+system("sudo apt install --no-install-recommends git cmake ninja-build gperf ccache dfu-util device-tree-compiler wget python3-dev python3-pip python3-setuptools python3-tk python3-wheel xz-utils file make gcc gcc-multilib g++-multilib libsdl2-dev libmagic1");
 
 # Track missing packages
 my @missing;
 my $target_dir = cwd();  # Get current working directory
 $target_dir .= "/zephyrproject";
 
+print "TARGET: $target_dir\n";
 # Check if `zephyrproject` exists inside the given directory
 if (-d $target_dir) {
     print "✅ Directory '$target_dir' exists!\n";
+    system("cd zephyrproject") or die "Failed to enter 'zephyrproject': $!\n";
 } else {
     print "❌ Directory '$target_dir' does NOT exist!\n";
     system('mkdir zephyrproject');
 }
-
-# Start navigation from 'zephyrproject'
-chdir("zephyrproject") or die "Failed to enter 'zephyrproject': $!\n";
-
-foreach my $package (@packages) {
-    my $status = `dpkg -l | grep -w $package`;
-    if ($status) {
-        print "$package is installed.\n";
-    } else {
-        print "$package is NOT installed.\n";
-        push @missing, $package;
-    }
-}
-
-# Install missing packages
-if(@missing) {
-    print "\nThe following packages are missing: @missing\n";
-    print "Do you want to install them? (y/n): ";
-    my $answer = <STDIN>;
-    chomp $answer;
-    if ($answer eq 'y' || $answer eq 'Y') {
-	foreach(@missing) {
-	    my $exit_code = system("sudo apt install --no-install-recommends $_");
-	    if ($exit_code = 25600) {
-		die "It is required that $_ is installed manually. Exiting!";
-	    }elsif ($exit_code != 0) {
-		die "Command failed with exit code $exit_code\n";
-	    }
-        }
-    }else {
-	die "Canceled by the user\n";
-    }
-}
-exit 0;
 
 #Get pwd via cwd
 my $current_dir = $build_base; # Stores the current directory
