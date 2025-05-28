@@ -95,8 +95,6 @@ deactivate'");
 # Store final directory choice
 my $src_dir = navigate_directory(); #Correct directory of source code.
 
-print "SOURCE: $src_dir";
-
 system("bash -c '
 source $current_dir/.venv/bin/activate &&
 cd  $current_dir &&
@@ -107,7 +105,7 @@ west zephyr-export &&
 west packages pip --install &&
 cd $current_dir/zephyr &&
 west sdk install &&
-read -p \"Press Enter to continue...\" && 
+read -p \"Press Enter to build...\" &&
 west build -p always -b nrf7002dk/nrf5340/cpuapp --source-dir $src_dir --build-dir $current_dir/zephyr/build &&
 deactivate'");
 system("echo 'Virtual environment deactivated'");
