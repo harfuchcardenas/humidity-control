@@ -35,17 +35,15 @@ sub navigate_directory {
     if ($choice eq '') {
         print "\nSelected source path: $current_dir\n";
         return $current_dir;
-    }elsif ($choice eq 'B') {
-        chdir("..") or die "Failed to climb a level up$!\n";
-    }
-
-    # Validate user input
-    if ($choice =~ /^\d+$/ && $choice >= 0 && $choice < @subdirs) {
+    }elsif ($choice =~ /^\d+$/ && $choice >= 0 && $choice < @subdirs) {
         my $selected_dir = $subdirs[$choice];
         chdir("$current_dir/$selected_dir") or die "Failed to enter '$selected_dir': $!\n";
         return navigate_directory();  # Recursively call function
     } elsif($choice =~ /^e$/i) {
         exit 0;
+    }elsif ($choice =~ /^b$/i) {
+        chdir("..") or die "Failed to climb a level up$!\n";
+        return navigate_directory();  # Retry selection
     }else {
         print "Invalid selection. Try again!\n";
         return navigate_directory();  # Retry selection
