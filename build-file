@@ -85,7 +85,20 @@ $current_dir .= "/zephyrproject";
 
 # Start navigation from 'zephyrproject'
 chdir("zephyrproject") or die "Failed to enter 'zephyrproject': $!\n";
-print "✅ python3-venv is installed. Building...\n";
+my $package = "python3.13-venv";
+my $cmd = "dpkg -l | grep $package";
+
+my $output = `$cmd`;
+if ($output) {
+    print "$package is installed.\n";
+} else {
+    print "$package is NOT installed.\n";
+    print "Press Enter to install $package...";
+    <STDIN>;  # Wait for user input
+    my $cmd_install = "sudo apt install -y $package";
+    system($cmd_install) == 0 or die "Failed to install $package\n";
+    print "$package has been installed.\n";
+}
 system("bash -c '
 python3 -m venv $current_dir/.venv &&
 pwd &&
