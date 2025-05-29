@@ -34,7 +34,8 @@ sub navigate_directory {
     # If user presses Enter, store current directory
     if ($choice eq '') {
         print "\nSelected source path: $current_dir\n";
-        return $current_dir;
+        <STDIN>;
+	return $current_dir;
     }elsif ($choice =~ /^\d+$/ && $choice >= 0 && $choice < @subdirs) {
         my $selected_dir = $subdirs[$choice];
         chdir("$current_dir/$selected_dir") or die "Failed to enter '$selected_dir': $!\n";
@@ -107,7 +108,7 @@ deactivate'");
 
 # Store final directory choice
 my $src_dir = navigate_directory(); #Correct directory of source code.
-
+<INPUT>
 system("bash -c '
 source $current_dir/.venv/bin/activate &&
 cd  $current_dir &&
