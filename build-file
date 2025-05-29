@@ -57,29 +57,37 @@ if (-e $install_file) {
     open(my $fh, '<', $install_file) or die "Could not open file '$install_file': $!";
     while (my $line = <$fh>) {
         if ($line =~ /git installed/i) {
-            print "Git is already installed, skipping...";
+            print "Git is already installed, skipping...\n";
+            next;
+        } else {
+        print STDERR "Error: insfile found but git is not installed, delete repository and re-run the file!\n";
+        exit 1;  # Exit with status 1 (indicating failure)
+        }
+        if ($line =~ /dependencies installed/i) {
+            print "Dependencies already installed, skipping...\n";
             last;
         } else {
-            exit(1); # Exit with status code 1 (indicating error)
+        print STDERR "Error: insfile found but dependencies are not installed, delete repository and re-run the file!\n";
+        exit 1;  # Exit with status 1 (indicating failure)
         }
     }
     close($fh);
 } else {
     print "Could not find insfile\n
-    Trying to install Git...";
+    Installing Git...\n";
     system("sudo apt update && sudo apt install -y git") == 0
         or die "Falied to install Git!\n";
     print "Creating insfile...";
     open(my $fh, '>', $install_file) or die "Could not open file '$install_file': $!";
     print $fh "git installed\n";
     close($fh);
+    print "Installing dependencies...\n";
+    #Install required Dependencies
+    system("sudo apt install --no-install-recommends git cmake ninja-build gperf ccache dfu-util device-tree-compiler wget python3-dev python3-pip python3-setuptools python3-tk python3-wheel xz-utils file make gcc gcc-multilib g++-multilib libsdl2-dev libmagic1");
+
 }
 
 exit 0;
-#Install required Dependencies
-system("echo To install dependencies\n");
-system("sudo apt install --no-install-recommends git cmake ninja-build gperf ccache dfu-util device-tree-compiler wget python3-dev python3-pip python3-setuptools python3-tk python3-wheel xz-utils file make gcc gcc-multilib g++-multilib libsdl2-dev libmagic1");
-
 # Track missing packages
 my @missing;
 my $target_dir = cwd();  # Get current working directory
