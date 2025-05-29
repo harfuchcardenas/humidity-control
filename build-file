@@ -106,6 +106,8 @@ west packages pip --install &&
 cd $current_dir/zephyr &&
 west sdk install &&
 read -p \"Press Enter to build...\" &&
+mkdir zephyr &&
+cd zephyr &&
 west build -p always -b nrf7002dk/nrf5340/cpuapp --source-dir $src_dir --build-dir $current_dir/zephyr/build &&
 deactivate'");
 system("echo 'Virtual environment deactivated'");
