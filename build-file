@@ -50,14 +50,22 @@ sub navigate_directory {
     }
 }
 
-# Install git
-if (system("command -v git > /dev/null") != 0) {
-    print "Git is not installed. Installing now...\n";
+my $install_file = "insfile";
+
+if (-e $install ) {
+    print "insfile found, opening...";
+    open(my $fh, '<', $install) or die "Could not open file '$file': $!";
+    while (my $line = <$fh>) {
+        if ($line =~ /git installed/i) {
+            print "Git is already installed, skipping...";
+        }
+    }
+}else {
     system("sudo apt update && sudo apt install -y git") == 0
         or die "Falied to install Git!\n";
-} else {
-    print "Git is already installed!\n";
 }
+
+close($fh);
 
 #Install required Dependencies
 system("echo To install dependencies\n");
@@ -72,7 +80,6 @@ print "TARGET: $target_dir\n";
 # Check if `zephyrproject` exists inside the given directory
 if (-d $target_dir) {
     print "✅ Directory '$target_dir' exists!\n";
-    system("cd zephyrproject") or die "Failed to enter 'zephyrproject': $!\n";
 } else {
     print "❌ Directory '$target_dir' does NOT exist!\n";
     system('mkdir zephyrproject');
@@ -85,7 +92,7 @@ $current_dir .= "/zephyrproject";
 
 # Start navigation from 'zephyrproject'
 chdir("zephyrproject") or die "Failed to enter 'zephyrproject': $!\n";
-print "✅ python3-venv is installed. Building...\n";
+print "✅ python3-venv is installed...\n";
 system("bash -c '
 python3 -m venv $current_dir/.venv &&
 pwd &&
@@ -107,7 +114,6 @@ west zephyr-export &&
 west packages pip --install &&
 cd $current_dir/zephyr &&
 west sdk install &&
-read -p \"Press Enter to continue...\" && 
 west build -p always -b nrf7002dk/nrf5340/cpuapp --source-dir $src_dir --build-dir $current_dir/zephyr/build &&
 deactivate'");
 system("echo 'Virtual environment deactivated'");
