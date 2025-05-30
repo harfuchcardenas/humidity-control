@@ -34,7 +34,6 @@ sub navigate_directory {
     # If user presses Enter, store current directory
     if ($choice eq '') {
         print "\nSelected source path: $current_dir\n";
-        <STDIN>;
 	return $current_dir;
     }elsif ($choice =~ /^\d+$/ && $choice >= 0 && $choice < @subdirs) {
         my $selected_dir = $subdirs[$choice];
@@ -85,20 +84,6 @@ $current_dir .= "/zephyrproject";
 
 # Start navigation from 'zephyrproject'
 chdir("zephyrproject") or die "Failed to enter 'zephyrproject': $!\n";
-#my $package = "python3.13-venv";
-#my $cmd = "dpkg -l | grep $package";
-
-#my $output = `$cmd`;
-#if ($output) {
-#    print "$package is installed.\n";
-#} else {
-#    print "$package is NOT installed.\n";
-#    print "Press Enter to install $package...";
-#    <STDIN>;  # Wait for user input
-#    my $cmd_install = "sudo apt install -y $package";
-#    system($cmd_install) == 0 or die "Failed to install $package\n";
-#    print "$package has been installed.\n";
-#}
 system("bash -c '
 python3 -m venv $current_dir/.venv &&
 pwd &&
@@ -120,7 +105,6 @@ west zephyr-export &&
 west packages pip --install &&
 cd $zephyr_dir &&
 west sdk install &&
-read -p \"Press Enter to build...\" &&
 west build -p always -b nrf7002dk/nrf5340/cpuapp --source-dir $src_dir --build-dir $current_dir/zephyr/build &&
 deactivate'");
 system("echo 'Virtual environment deactivated'");
