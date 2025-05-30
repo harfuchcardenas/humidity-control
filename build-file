@@ -107,22 +107,9 @@ deactivate'");
 
 # Store final directory choice
 my $src_dir = navigate_directory(); #Correct directory of source code.
-<<<<<<< HEAD
-<<<<<<< HEAD
-<INPUT>
-=======
 my $zephyr_dir = $current_dir;
 $zephyr_dir .= '/zephyr';
 
->>>>>>> 5c45fa9 (Correct cd directory before west sdk install to point to the right one.)
-=======
-my $zephyr_dir = $current_dir;
-$zephyr_dir .= '/zephyr';
-
-=======
-<INPUT>
->>>>>>> ee0e2e8 (Add <STDIN> just after the path has been selected to realize on which level we are.)
->>>>>>> 11d434b (Add <STDIN> just after the path has been selected to realize on which level we are.)
 system("bash -c '
 source $current_dir/.venv/bin/activate &&
 cd  $current_dir &&
