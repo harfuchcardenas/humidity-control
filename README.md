@@ -4,20 +4,19 @@ After getting the fan controled the next step will be to control it based on the
 
 Installation (Ubuntu 20.04.1 LTS):
 
-mkdir Humidity\ control
-cd Humidity\ control
+--Clone the repository--
+`git clone git@github.com:harfuchcardenas/humidity-control.git`
+cd humidity-control
 
-wget https://apt.kitware.com/kitware-archive.sh
-sudo bash kitware-archive.sh
+--Access directory--
+cd humidity-control
 
+--Give execution permission--
+`chmod +x ./build-file`
 
-sudo apt install --no-install-recommends git cmake ninja-build gperf \
-  ccache dfu-util device-tree-compiler wget \
-  python3-dev python3-pip python3-setuptools python3-tk python3-wheel xz-utils file \
-  make gcc gcc-multilib g++-multilib libsdl2-dev libmagic1
-  
-cmake --version
-python3 --version
-dtc --version
+--Run script--
+`./build-file`
 
-sudo apt install python3-venv
+Notes: If it is the first time the script is been run, then an Error will prompt out as there the Virtual Environment is created and the directories created are not updated in runtime, so re-run ./build-file.
+If the script is run consecutively for different source directory it is needed to remove manually the build/ directory before the script is run again.
+
