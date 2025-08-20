@@ -12,6 +12,7 @@
 \#*\#
 kitware-archive.sh
 zephyrproject/
+!zephyrproject/zephyr/samples/basic/fund_less3_exer2/
 samples
 boards
 .checkpatch.conf
@@ -51,7 +52,6 @@ lib/
 misc/
 modules/
 samples/
-!samples/basic/fund_less3_exer2/
 scripts/
 share/
 snippets/
