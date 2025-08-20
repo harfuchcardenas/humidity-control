@@ -51,6 +51,7 @@ lib/
 misc/
 modules/
 samples/
+!samples/basic/fund_less3_exer2/
 scripts/
 share/
 snippets/
