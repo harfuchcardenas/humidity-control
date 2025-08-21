@@ -58,12 +58,11 @@ tests/
 version.h.in
 west.yml
 zephyr-env.sh
+zephyrproject/.west/
+zephyrproject/bootloader/
+zephyrproject/tools/
+zephyrproject/zephyr/
 build*/
-zephyrproject/
-!zephyrproject/zephyr/samples/basic/fund_less3_exer2/CMakeLists.txt
-!zephyrproject/zephyr/samples/basic/fund_less3_exer2/myfunction.h
-!zephyrproject/zephyr/samples/basic/fund_less3_exer2/prj.conf
-!zephyrproject/zephyr/samples/basic/fund_less3_exer2/src/main.c
 !doc/build/
 !scripts/build
 !tests/drivers/build_all
