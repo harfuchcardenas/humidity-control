@@ -108,4 +108,12 @@ west sdk install &&
 west build -p always -b nrf7002dk/nrf5340/cpuapp --source-dir $src_dir --build-dir $current_dir/zephyr/build &&
 deactivate'");
 system("echo 'Virtual environment deactivated'");
+
+# Move up one directory level
+chdir $build_base or die "Failed to change directory: $!";
+my $script_path = 'flash-file';
+
+# Run flash-file in order to flash to selected device
+system("perl $script_path")==0
+    or die "Failed to run flash-file $script_path: $!";
 exit 0;
