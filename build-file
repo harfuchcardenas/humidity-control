@@ -106,7 +106,8 @@ west packages pip --install &&
 cd $zephyr_dir &&
 west sdk install &&
 west build -p always -b nrf7002dk/nrf5340/cpuapp --source-dir $src_dir --build-dir $current_dir/zephyr/build &&
-deactivate'");
+deactivate'") == 0
+or die "Could not update west, virtual environment eactivated: $!"
 system("echo 'Virtual environment deactivated'");
 
 # Move up one directory level
