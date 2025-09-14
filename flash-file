@@ -30,7 +30,7 @@ while (1) {
             print "✅ nrfutil is installed at: $nrfutil_path\n";
             print "Flashing the application...\n";
             system("bash -c '
-            source $current_dir/.venv/bin/activate && cd $current_dir &&
+            source $current_dir/../.venv/bin/activate && cd $current_dir &&
             west flash --build-dir zephyr/build/ && deactivate'") == 0
             or die "Failed to flash the board: $!";
             print "Flash successful!\n";
@@ -65,7 +65,7 @@ while (1) {
 		print "✅ nrfutil should now be installed!\n";
                 print "Flashing the application...\n";
                 system("bash -c '
-                source $current_dir/.venv/bin/activate && cd $current_dir &&
+                source $current_dir/../.venv/bin/activate && cd $current_dir &&
 	        west flash --build-dir zephyr/build/ && deactivate'") == 0
 			or die "Failed to flash the board: $!";
             	print "Flash successful!\n";
