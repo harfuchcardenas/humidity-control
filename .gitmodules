@@ -1,3 +1,6 @@
 [submodule "zephyr_build"]
 	path = zephyr_build
 	url = git@github.com:harfuchcardenas/zephyr_build.git
+[submodule "zephyr_flash"]
+	path = zephyr_flash
+	url = git@github.com:harfuchcardenas/zephyr_flash.git
