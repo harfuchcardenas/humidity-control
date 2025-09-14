@@ -52,6 +52,9 @@ Notes: If it is the first time the script is been run, then an Error will prompt
 If the script is run consecutively for different source directory it is needed to remove manually the build/ directory before the script is run again.
 
 --TO-DO--
---Correct bug of first run by re-running script automatically after installation
+
+-Correct bug of first run by re-running script automatically after installation
+
 -Add automatic cache storage 
+
 -Add strategy to remove build directory
