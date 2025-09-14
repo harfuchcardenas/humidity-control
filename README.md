@@ -10,11 +10,25 @@ Installation (Ubuntu 20.04.1 LTS):
 
 `git clone git@github.com:harfuchcardenas/humidity-control.git`
 
-Build an Zephyr
+
+Install zephyr-build module
 
 --Access directory--
 
-`cd humidity-control/zephyr_build/`
+`cd humidity-control`
+
+--Add Submodule to build Zephyr--
+
+`git submodule add git@github.com:harfuchcardenas/zephyr_build.git`
+
+
+Build Application
+
+Navigate to Application's source directory
+
+--Access directory--
+
+`cd humidity-control/zephyr_build`
 
 --Give execution permission--
 
@@ -24,19 +38,21 @@ Build an Zephyr
 
 `./build-file`
 
---Navigate to directory where Application's CMake is located--
+--Navigate to directory where Application's CMake file is located, press enter to build, or navigate a level backwards, or cancel
 
---Press enter or navigate an upper level or cancel
+Flash on selected board (currently hardcoded to nrf7002-dk)
 
+--Acess project's root directory--
 
-Flash on selected board (currently hardcoded to nrf7002-dk--
+`cd humidity-control/`
 
---After cloning navigate access directory--
+--Add Submodule to flash Zephyr--
 
+`git submodule add git@github.com:harfuchcardenas/zephyr_flash.git`
 
---Acess directory--
+--Acess project's flash directory--
 
-`cd humidity-control/zephyr_build/`
+`cd humidity-control/zephyr_flash`
 
 --Give execution permission--
 
